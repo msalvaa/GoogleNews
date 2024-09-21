@@ -33,28 +33,32 @@ def lexical_date_parser(date_to_check):
 
 
 def define_date(date):
-    months = {'ene':1,'feb':2,'mar':3,'abr':4,'may':5,'jun':6,'jul':7,'ago':8,'sep':9,'sept':9,'oct':10,'nov':11,'dic':12, '01':1, '02':2, '03':3, '04':4, '05':5, '06':6, '07':7, '08':8, '09':9, '10':10, '11':11, '12':12}
+    months = {'ene':1,'feb':2,'mar':3,'abr':4,'may':5,'jun':6,'jul':7,'ago':8,'sep':9,'sept':9,'oct':10,'nov':11,'dic':12,
+              '01':1, '02':2, '03':3, '04':4, '05':5, '06':6, '07':7, '08':8, '09':9, '10':10, '11':11, '12':12}
+    
     try:
-        if 'hace' in date.lower():
-            q = int(date.split()[-3])
-            if re.search(r"(minutos|minuto|min.|mins|min|mins.)", date.lower()):
+        date = date.lower() 
+        if 'hace' in date:
+            q = int(date.split()[1])
+            if re.search(r"(minutos|minuto|min\.)", date):
                 return datetime.datetime.now() + relativedelta(minutes=-q)
-            elif re.search(r"(hora|horas)", date.lower()):
+            elif re.search(r"(hora|horas)", date):
                 return datetime.datetime.now() + relativedelta(hours=-q)
-            elif re.search(r"(día|días)", date.lower()):
+            elif re.search(r"(día|días)", date):
                 return datetime.datetime.now() + relativedelta(days=-q)
-            elif re.search(r"(semana|semanas)", date.lower()):
-                return datetime.datetime.now() + relativedelta(days=-7*q)
-            elif re.search(r"(mes|meses)", date.lower()):
+            elif re.search(r"(semana|semanas)", date):
+                return datetime.datetime.now() + relativedelta(weeks=-q)
+            elif re.search(r"(mes|meses)", date):
                 return datetime.datetime.now() + relativedelta(months=-q)
-        elif 'ayer' in date.lower():
+        elif 'ayer' in date:
             return datetime.datetime.now() + relativedelta(days=-1)
         else:
             for month in months.keys():
-                if month.lower() + " " in date.lower():
+                if month in date:
                     date_list = date.replace(",", "").split()[-3:]
-                    return datetime.datetime(day=int(date_list[1]), month=months[month], year=int(date_list[2]))
-    except:
+                    return datetime.datetime(day=int(date_list[0]), month=months[month], year=int(date_list[2]))
+    except Exception as e:
+        print(f"Error procesando la fecha {date}: {e}")
         return float('nan')
 
 
