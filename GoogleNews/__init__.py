@@ -33,21 +33,21 @@ def lexical_date_parser(date_to_check):
 
 
 def define_date(date):
-    months = {'Jan':1,'Feb':2,'Mar':3,'Apr':4,'May':5,'Jun':6,'Jul':7,'Aug':8,'Sep':9,'Sept':9,'Oct':10,'Nov':11,'Dec':12, '01':1, '02':2, '03':3, '04':4, '05':5, '06':6, '07':7, '08':8, '09':9, '10':10, '11':11, '12':12}
+    months = {'ene':1,'feb':2,'mar':3,'abr':4,'may':5,'jun':6,'jul':7,'ago':8,'sep':9,'sept':9,'oct':10,'nov':11,'dic':12, '01':1, '02':2, '03':3, '04':4, '05':5, '06':6, '07':7, '08':8, '09':9, '10':10, '11':11, '12':12}
     try:
-        if ' ago' in date.lower():
+        if 'Hace' in date.lower():
             q = int(date.split()[-3])
-            if 'minutes' in date.lower() or 'mins' in date.lower():
+            if 'minutos' in date.lower() or 'mins' in date.lower():
                 return datetime.datetime.now() + relativedelta(minutes=-q)
-            elif 'hour' in date.lower():
+            elif 'hora' in date.lower():
                 return datetime.datetime.now() + relativedelta(hours=-q)
-            elif 'day' in date.lower():
+            elif 'día' in date.lower():
                 return datetime.datetime.now() + relativedelta(days=-q)
-            elif 'week' in date.lower():
+            elif 'semana' in date.lower():
                 return datetime.datetime.now() + relativedelta(days=-7*q)
-            elif 'month' in date.lower():
+            elif 'mes' in date.lower():
                 return datetime.datetime.now() + relativedelta(months=-q)
-        elif 'yesterday' in date.lower():
+        elif 'ayer' in date.lower():
             return datetime.datetime.now() + relativedelta(days=-1)
         else:
             date_list = date.replace('/',' ').split(' ')
