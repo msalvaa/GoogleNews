@@ -50,13 +50,10 @@ def define_date(date):
         elif 'ayer' in date.lower():
             return datetime.datetime.now() + relativedelta(days=-1)
         else:
-            date_list = date.replace('/',' ').split(' ')
-            if len(date_list) == 2:
-                date_list.append(datetime.datetime.now().year)
-            elif len(date_list) == 3:
-                if date_list[0] == '':
-                    date_list[0] = '1'
-            return datetime.datetime(day=int(date_list[0]), month=months[date_list[1]], year=int(date_list[2]))
+            for month in months.keys():
+                if month.lower() + " " in date.lower():
+                    date_list = date.replace(",", "").split()[-3:]
+                    return datetime.datetime(day=int(date_list[1]), month=months[month], year=int(date_list[2]))
     except:
         return float('nan')
 
