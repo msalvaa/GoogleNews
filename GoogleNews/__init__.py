@@ -35,17 +35,17 @@ def lexical_date_parser(date_to_check):
 def define_date(date):
     months = {'ene':1,'feb':2,'mar':3,'abr':4,'may':5,'jun':6,'jul':7,'ago':8,'sep':9,'sept':9,'oct':10,'nov':11,'dic':12, '01':1, '02':2, '03':3, '04':4, '05':5, '06':6, '07':7, '08':8, '09':9, '10':10, '11':11, '12':12}
     try:
-        if 'Hace' in date.lower():
+        if 'hace' in date.lower():
             q = int(date.split()[-3])
-            if 'minutos' in date.lower() or 'mins' in date.lower():
+            if re.search(r"(minutos|minuto|min.|mins|min|mins.)", date.lower()):
                 return datetime.datetime.now() + relativedelta(minutes=-q)
-            elif 'hora' in date.lower():
+            elif re.search(r"(hora|horas)", date.lower()):
                 return datetime.datetime.now() + relativedelta(hours=-q)
-            elif 'día' in date.lower():
+            elif re.search(r"(día|días)", date.lower()):
                 return datetime.datetime.now() + relativedelta(days=-q)
-            elif 'semana' in date.lower():
+            elif re.search(r"(semana|semanas)", date.lower()):
                 return datetime.datetime.now() + relativedelta(days=-7*q)
-            elif 'mes' in date.lower():
+            elif re.search(r"(mes|meses)", date.lower()):
                 return datetime.datetime.now() + relativedelta(months=-q)
         elif 'ayer' in date.lower():
             return datetime.datetime.now() + relativedelta(days=-1)
